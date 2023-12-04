@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>TestTarkistaVoittaja.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">KiviPaperiSakset (4 Dec 2023 16.26.36)</a> &gt; <a href="../../index.html" class="el_group">KiviPaperiSakset</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">TestTarkistaVoittaja.java</span></div><h1>TestTarkistaVoittaja.java</h1><pre class="source lang-java linenums">import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import kivipaperisakset.Valinnat;
+import kivipaperisakset.Pelaaja;
+import kivipaperisakset.Pelinohjaaja;
+
+<span class="fc" id="L16">class TestTarkistaVoittaja {</span>
+	
+	@Mock
+	Pelaaja pelaaja1;
+	
+	@Mock
+	Pelaaja pelaaja2;
+	
+	Method getTarkistaVoittajaMethod() throws NoSuchMethodException {
+<span class="fc" id="L25">		Method tarkistaVoittaja = Pelinohjaaja.class.getDeclaredMethod(&quot;tarkistaVoittaja&quot;, Pelaaja.class, Pelaaja.class);</span>
+<span class="fc" id="L26">		tarkistaVoittaja.setAccessible(true);</span>
+<span class="fc" id="L27">		return tarkistaVoittaja;</span>
+	}
+
+	@BeforeEach
+	public void setup() {
+<span class="fc" id="L32">		MockitoAnnotations.openMocks(this);</span>
+<span class="fc" id="L33">	}</span>
+	
+	// Palaaja 1 voittaa
+	@Test
+	void TestKiviSakset() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+<span class="fc" id="L38">		Mockito.when(pelaaja1.pelaajanValinta()).thenReturn(Valinnat.KIVI);</span>
+<span class="fc" id="L39">		Mockito.when(pelaaja2.pelaajanValinta()).thenReturn(Valinnat.SAKSET);</span>
+		
+<span class="fc" id="L41">		assertEquals(pelaaja1, getTarkistaVoittajaMethod().invoke(null, pelaaja1, pelaaja2));</span>
+		
+<span class="fc" id="L43">		Mockito.verify(pelaaja1).pelaajanValinta();</span>
+<span class="fc" id="L44">		Mockito.verify(pelaaja2).pelaajanValinta();</span>
+<span class="fc" id="L45">	}</span>
+	
+	@Test
+	void TestPaperiKivi() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+<span class="fc" id="L49">		Mockito.when(pelaaja1.pelaajanValinta()).thenReturn(Valinnat.PAPERI);</span>
+<span class="fc" id="L50">		Mockito.when(pelaaja2.pelaajanValinta()).thenReturn(Valinnat.KIVI);</span>
+		
+<span class="fc" id="L52">		assertEquals(pelaaja1, getTarkistaVoittajaMethod().invoke(null, pelaaja1, pelaaja2));</span>
+		
+<span class="fc" id="L54">		Mockito.verify(pelaaja1).pelaajanValinta();</span>
+<span class="fc" id="L55">		Mockito.verify(pelaaja2).pelaajanValinta();</span>
+<span class="fc" id="L56">	}</span>
+	
+	@Test
+	void TestSaksetPaperi() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+<span class="fc" id="L60">		Mockito.when(pelaaja1.pelaajanValinta()).thenReturn(Valinnat.SAKSET);</span>
+<span class="fc" id="L61">		Mockito.when(pelaaja2.pelaajanValinta()).thenReturn(Valinnat.PAPERI);</span>
+		
+<span class="fc" id="L63">		assertEquals(pelaaja1, getTarkistaVoittajaMethod().invoke(null, pelaaja1, pelaaja2));</span>
+		
+<span class="fc" id="L65">		Mockito.verify(pelaaja1).pelaajanValinta();</span>
+<span class="fc" id="L66">		Mockito.verify(pelaaja2).pelaajanValinta();</span>
+<span class="fc" id="L67">	}</span>
+	
+	// Pelaaja 2 voittaa
+	@Test
+	void TestKiviPaperi() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+<span class="fc" id="L72">		Mockito.when(pelaaja1.pelaajanValinta()).thenReturn(Valinnat.KIVI);</span>
+<span class="fc" id="L73">		Mockito.when(pelaaja2.pelaajanValinta()).thenReturn(Valinnat.PAPERI);</span>
+		
+<span class="fc" id="L75">		assertEquals(pelaaja2, getTarkistaVoittajaMethod().invoke(null, pelaaja1, pelaaja2));</span>
+		
+<span class="fc" id="L77">		Mockito.verify(pelaaja1).pelaajanValinta();</span>
+<span class="fc" id="L78">		Mockito.verify(pelaaja2).pelaajanValinta();</span>
+<span class="fc" id="L79">	}</span>
+	
+	@Test
+	void TestPaperiSakset() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+<span class="fc" id="L83">		Mockito.when(pelaaja1.pelaajanValinta()).thenReturn(Valinnat.PAPERI);</span>
+<span class="fc" id="L84">		Mockito.when(pelaaja2.pelaajanValinta()).thenReturn(Valinnat.SAKSET);</span>
+		
+<span class="fc" id="L86">		assertEquals(pelaaja2, getTarkistaVoittajaMethod().invoke(null, pelaaja1, pelaaja2));</span>
+		
+<span class="fc" id="L88">		Mockito.verify(pelaaja1).pelaajanValinta();</span>
+<span class="fc" id="L89">		Mockito.verify(pelaaja2).pelaajanValinta();</span>
+<span class="fc" id="L90">	}</span>
+	
+	@Test
+	void TestSaksetKivi() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+<span class="fc" id="L94">		Mockito.when(pelaaja1.pelaajanValinta()).thenReturn(Valinnat.SAKSET);</span>
+<span class="fc" id="L95">		Mockito.when(pelaaja2.pelaajanValinta()).thenReturn(Valinnat.KIVI);</span>
+		
+<span class="fc" id="L97">		assertEquals(pelaaja2, getTarkistaVoittajaMethod().invoke(null, pelaaja1, pelaaja2));</span>
+		
+<span class="fc" id="L99">		Mockito.verify(pelaaja1).pelaajanValinta();</span>
+<span class="fc" id="L100">		Mockito.verify(pelaaja2).pelaajanValinta();</span>
+<span class="fc" id="L101">	}</span>
+	
+	// Tasapeli
+	@Test
+	void TestKiviKivi() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+<span class="fc" id="L106">		Mockito.when(pelaaja1.pelaajanValinta()).thenReturn(Valinnat.KIVI);</span>
+<span class="fc" id="L107">		Mockito.when(pelaaja2.pelaajanValinta()).thenReturn(Valinnat.KIVI);</span>
+		
+<span class="fc" id="L109">		assertEquals(null, getTarkistaVoittajaMethod().invoke(null, pelaaja1, pelaaja2));</span>
+		
+<span class="fc" id="L111">		Mockito.verify(pelaaja1).pelaajanValinta();</span>
+<span class="fc" id="L112">		Mockito.verify(pelaaja2).pelaajanValinta();</span>
+<span class="fc" id="L113">	}</span>
+	
+	@Test
+	void TestPaperiPaperi() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+<span class="fc" id="L117">		Mockito.when(pelaaja1.pelaajanValinta()).thenReturn(Valinnat.PAPERI);</span>
+<span class="fc" id="L118">		Mockito.when(pelaaja2.pelaajanValinta()).thenReturn(Valinnat.PAPERI);</span>
+		
+<span class="fc" id="L120">		assertEquals(null, getTarkistaVoittajaMethod().invoke(null, pelaaja1, pelaaja2));</span>
+		
+<span class="fc" id="L122">		Mockito.verify(pelaaja1).pelaajanValinta();</span>
+<span class="fc" id="L123">		Mockito.verify(pelaaja2).pelaajanValinta();</span>
+<span class="fc" id="L124">	}</span>
+	
+	@Test
+	void TestSaksetSakset() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+<span class="fc" id="L128">		Mockito.when(pelaaja1.pelaajanValinta()).thenReturn(Valinnat.SAKSET);</span>
+<span class="fc" id="L129">		Mockito.when(pelaaja2.pelaajanValinta()).thenReturn(Valinnat.SAKSET);</span>
+		
+<span class="fc" id="L131">		assertEquals(null, getTarkistaVoittajaMethod().invoke(null, pelaaja1, pelaaja2));</span>
+		
+<span class="fc" id="L133">		Mockito.verify(pelaaja1).pelaajanValinta();</span>
+<span class="fc" id="L134">		Mockito.verify(pelaaja2).pelaajanValinta();</span>
+<span class="fc" id="L135">	}</span>
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span>KiviPaperiSakset (4 Dec 2023 16.26.36)</div></body></html>

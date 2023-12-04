@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Pelinohjaaja.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">KiviPaperiSakset (4 Dec 2023 16.26.36)</a> &gt; <a href="../../index.html" class="el_group">KiviPaperiSakset</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">kivipaperisakset</a> &gt; <span class="el_source">Pelinohjaaja.java</span></div><h1>Pelinohjaaja.java</h1><pre class="source lang-java linenums">package kivipaperisakset;
+
+/**
+ * Pelinohjaaja käsittelee pelien ja kierrosten pelaamisen sekä pelien tilastot
+ * @author Oskari Pahkala
+ */
+public class Pelinohjaaja {
+	/**
+	 * {@link Pelaaja} 1
+	 */
+	private Pelaaja pelaaja1;
+	/**
+	 * {@link Pelaaja} 2
+	 */
+	private Pelaaja pelaaja2;
+	/**
+	 * Pelattujen pelien lkm
+	 */
+<span class="nc" id="L19">    private int pelatutKierrokset = 0;</span>
+    /**
+     * Tasapelien lkm
+     */
+<span class="nc" id="L23">    private int tasapelit = 0;</span>
+    
+    /**
+     * Luo pelinohjaajan 
+     * @param p1 {@link Pelaaja} 1
+     * @param p2 {@link Pelaaja} 2
+     */
+<span class="nc" id="L30">    public Pelinohjaaja(Pelaaja p1, Pelaaja p2) {</span>
+<span class="nc" id="L31">		this.pelaaja1 = p1;</span>
+<span class="nc" id="L32">		this.pelaaja2 = p2;</span>
+<span class="nc" id="L33">	}</span>
+    
+    /**
+     * Tulostaa pelin tilastot
+     */
+    private void tulostaTilasto() {
+<span class="nc" id="L39">    	System.out.println(&quot;Erä: &quot; + (pelatutKierrokset + 1) + &quot; =====================&quot;);</span>
+<span class="nc" id="L40">    	System.out.println();</span>
+<span class="nc" id="L41">        System.out.println(&quot;Tasapelien lukumäärä: &quot; + tasapelit);</span>
+<span class="nc" id="L42">        System.out.println(&quot;Pelaaja 1:llä koossa &quot; + pelaaja1.getVoitot() + &quot; voittoa.&quot;);</span>
+<span class="nc" id="L43">        System.out.println(&quot;Pelaaja 2:lla koossa &quot; + pelaaja2.getVoitot() + &quot; voittoa.&quot;);</span>
+<span class="nc" id="L44">        System.out.println();</span>
+<span class="nc" id="L45">    }</span>
+    
+    /**
+     * Tarkistaa kumpi pelaaja voittaa
+     * @param p1 {@link Pelaaja} 1
+     * @param p2 {@link Pelaaja} 2
+     * @return voittavan {@link Pelaaja pelaajan}, tai null jos tasapeli
+     */
+    private static Pelaaja tarkistaVoittaja(Pelaaja p1, Pelaaja p2) {
+    	// Pelaajat tekevät valintansa
+<span class="fc" id="L55">    	Valinnat p1Valinta = p1.pelaajanValinta();</span>
+<span class="fc" id="L56">    	Valinnat p2Valinta = p2.pelaajanValinta();</span>
+        
+<span class="pc bpc" id="L58" title="3 of 4 branches missed.">    	if (p1.getNimi() != null &amp;&amp; p2.getNimi() != null) {    		</span>
+<span class="nc" id="L59">    		System.out.println(p1.getNimi() + &quot;: &quot; + p1Valinta);</span>
+<span class="nc" id="L60">    		System.out.println(p2.getNimi() + &quot;: &quot; + p2Valinta);</span>
+    	}
+    	
+    	if // Tarkista voittiko pelaaja 1
+<span class="fc bfc" id="L64" title="All 4 branches covered.">        ((p1Valinta.equals(Valinnat.KIVI))	&amp;&amp;	(p2Valinta.equals(Valinnat.SAKSET)) ||</span>
+<span class="fc bfc" id="L65" title="All 4 branches covered.">         (p1Valinta.equals(Valinnat.PAPERI))	&amp;&amp;	(p2Valinta.equals(Valinnat.KIVI)) ||</span>
+<span class="fc bfc" id="L66" title="All 4 branches covered.">         (p1Valinta.equals(Valinnat.SAKSET))	&amp;&amp;	(p2Valinta.equals(Valinnat.PAPERI))) {</span>
+<span class="fc" id="L67">            return p1;</span>
+        } else if // Tarkista voittiko pelaaja 2
+<span class="fc bfc" id="L69" title="All 4 branches covered.">        ((p2Valinta.equals(Valinnat.KIVI))		&amp;&amp;	(p1Valinta.equals(Valinnat.SAKSET)) ||</span>
+<span class="fc bfc" id="L70" title="All 4 branches covered.">         (p2Valinta.equals(Valinnat.PAPERI))	&amp;&amp;	(p1Valinta.equals(Valinnat.KIVI)) ||</span>
+<span class="fc bfc" id="L71" title="All 4 branches covered.">         (p2Valinta.equals(Valinnat.SAKSET))	&amp;&amp;	(p1Valinta.equals(Valinnat.PAPERI))){</span>
+<span class="fc" id="L72">        	return p2;</span>
+        }
+    	// muussa tilanteessa tasapeli
+<span class="fc" id="L75">    	return null;</span>
+    }
+    
+    /**
+     * Pelaa yhden kierroksen
+     */
+    private void pelaaKierros() {
+        
+<span class="nc" id="L83">        Pelaaja voittaja = tarkistaVoittaja(pelaaja1, pelaaja2);</span>
+        
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        if (voittaja == null) {</span>
+<span class="nc" id="L86">            tasapelit++;</span>
+<span class="nc" id="L87">            System.out.println(&quot;Tasapeli&quot;);</span>
+<span class="nc" id="L88">        } else {</span>
+<span class="nc" id="L89">        	System.out.println(voittaja.getNimi() + &quot; voittaa&quot;);</span>
+<span class="nc" id="L90">        	voittaja.setVoitot();</span>
+        }
+<span class="nc" id="L92">        System.out.println();</span>
+
+<span class="nc" id="L94">        pelatutKierrokset++;</span>
+<span class="nc" id="L95">    }</span>
+    
+    /**
+     * Pelaa kokonaisen pelin
+     * @param voitot Pelin voittamiseen tarvittava voitettujen kierrosten lukumäärä
+     */
+    public void pelaaPeli(int voitot) {
+    	// Pelaa kierroksia kunnes toisella palaajalla on tarpeeksi voittoja
+<span class="nc bnc" id="L103" title="All 2 branches missed.">    	do {</span>
+<span class="nc" id="L104">    		tulostaTilasto();</span>
+            
+<span class="nc" id="L106">            pelaaKierros();</span>
+            
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        } while ((pelaaja1.getVoitot() &lt; voitot) &amp;&amp; (pelaaja2.getVoitot() &lt; voitot));</span>
+    	
+<span class="nc" id="L110">    	System.out.println(voitot + &quot; VOITTOA - PELI PÄÄTTYY\n&quot;);</span>
+<span class="nc" id="L111">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span>KiviPaperiSakset (4 Dec 2023 16.26.36)</div></body></html>
